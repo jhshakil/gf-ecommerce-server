@@ -10,7 +10,7 @@ const register = async (payload: RegisterInput) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const result = await prisma.$transaction(async () => {
+  return await prisma.$transaction(async () => {
     const user = await prisma.user.create({
       data: {
         email,
@@ -34,8 +34,6 @@ const register = async (payload: RegisterInput) => {
 
     return { user, customer };
   });
-
-  return result;
 };
 
 const login = async (payload: LoginInput) => {
@@ -64,12 +62,10 @@ const login = async (payload: LoginInput) => {
 };
 
 const getUserById = async (id: number) => {
-  const result = await prisma.user.findUnique({
+  return await prisma.user.findUnique({
     where: { id },
     include: { customer: true },
   });
-
-  return result;
 };
 
 export const AuthServices = {
