@@ -42,15 +42,8 @@ const login = catchAsync(async (req: Request, res: Response) => {
 const getCurrentUser = catchAsync(
   async (req: Request & { user?: AuthUser }, res: Response) => {
     const userId = req.user?.id;
-    if (!userId) {
-      return sendResponse(res, {
-        statusCode: httpStatus.UNAUTHORIZED,
-        message: "Unauthorized",
-        data: "",
-      });
-    }
 
-    const user = await AuthServices.getUserById(userId);
+    const user = await AuthServices.getUserById(userId as number);
 
     if (!user) {
       return sendResponse(res, {
