@@ -34,7 +34,7 @@ const getProduct = catchAsync(async (req: Request, res: Response) => {
   const productId = parseInt(req.params.id);
 
   if (isNaN(productId)) {
-    sendResponse(res, {
+    return sendResponse(res, {
       statusCode: httpStatus.BAD_REQUEST,
       message: "Invalid product ID",
       data: "",
@@ -44,7 +44,7 @@ const getProduct = catchAsync(async (req: Request, res: Response) => {
   const product = await ProductServices.getProductById(productId);
 
   if (!product) {
-    sendResponse(res, {
+    return sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
       message: "Product not found",
       data: "",
@@ -61,7 +61,7 @@ const updateProduct = catchAsync(async (req: Request, res: Response) => {
   const productId = parseInt(req.params.id);
 
   if (isNaN(productId)) {
-    sendResponse(res, {
+    return sendResponse(res, {
       statusCode: httpStatus.BAD_REQUEST,
       message: "Invalid product ID",
       data: "",
@@ -80,7 +80,7 @@ const deleteProduct = catchAsync(async (req: Request, res: Response) => {
   const productId = parseInt(req.params.id);
 
   if (isNaN(productId)) {
-    sendResponse(res, {
+    return sendResponse(res, {
       statusCode: httpStatus.BAD_REQUEST,
       message: "Invalid product ID",
       data: "",

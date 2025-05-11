@@ -25,13 +25,9 @@ const addToCart = async (
     where: { id: productId },
   });
 
-  if (!product) {
-    throw new Error("Product not found");
-  }
+  if (!product) throw new Error("Product not found");
 
-  if (product.stock < quantity) {
-    throw new Error("Insufficient stock");
-  }
+  if (product.stock < quantity) throw new Error("Insufficient stock");
 
   const cart = await getOrCreateCart(userId);
 
@@ -69,13 +65,9 @@ const updateCartItem = async (
     where: { id: productId },
   });
 
-  if (!product) {
-    throw new Error("Product not found");
-  }
+  if (!product) throw new Error("Product not found");
 
-  if (product.stock < quantity) {
-    throw new Error("Insufficient stock");
-  }
+  if (product.stock < quantity) throw new Error("Insufficient stock");
 
   const cart = await getOrCreateCart(userId);
 
@@ -96,9 +88,7 @@ const removeFromCart = async (userId: number, productId: number) => {
     where: { userId },
   });
 
-  if (!cart) {
-    throw new Error("Cart not found");
-  }
+  if (!cart) throw new Error("Cart not found");
 
   return await prisma.cartItem.delete({
     where: {
@@ -115,9 +105,7 @@ const clearCart = async (userId: number) => {
     where: { userId },
   });
 
-  if (!cart) {
-    throw new Error("Cart not found");
-  }
+  if (!cart) throw new Error("Cart not found");
 
   return await prisma.cartItem.deleteMany({
     where: { cartId: cart.id },

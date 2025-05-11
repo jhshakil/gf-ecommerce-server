@@ -26,7 +26,7 @@ const getCategory = catchAsync(async (req: Request, res: Response) => {
   const categoryId = parseInt(req.params.id);
 
   if (isNaN(categoryId)) {
-    sendResponse(res, {
+    return sendResponse(res, {
       statusCode: httpStatus.BAD_REQUEST,
       message: "Invalid category ID",
       data: "",
@@ -35,7 +35,7 @@ const getCategory = catchAsync(async (req: Request, res: Response) => {
   const category = await CategoryServices.getCategoryById(categoryId);
 
   if (!category) {
-    sendResponse(res, {
+    return sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
       message: "Category not found",
       data: "",
@@ -52,7 +52,7 @@ const updateCategory = catchAsync(async (req: Request, res: Response) => {
   const categoryId = parseInt(req.params.id);
 
   if (isNaN(categoryId)) {
-    sendResponse(res, {
+    return sendResponse(res, {
       statusCode: httpStatus.BAD_REQUEST,
       message: "Invalid category ID",
       data: "",
@@ -70,7 +70,7 @@ const deleteCategory = catchAsync(async (req: Request, res: Response) => {
   const categoryId = parseInt(req.params.id);
 
   if (isNaN(categoryId)) {
-    sendResponse(res, {
+    return sendResponse(res, {
       statusCode: httpStatus.BAD_REQUEST,
       message: "Invalid category ID",
       data: "",

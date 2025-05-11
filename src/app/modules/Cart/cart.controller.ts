@@ -41,7 +41,7 @@ const updateCartItem = catchAsync(
     const productId = parseInt(req.params.productId);
 
     if (isNaN(productId)) {
-      sendResponse(res, {
+      return sendResponse(res, {
         statusCode: httpStatus.BAD_REQUEST,
         message: "Invalid product ID",
         data: "",
@@ -67,7 +67,7 @@ const removeFromCart = catchAsync(
     const productId = parseInt(req.params.productId);
 
     if (isNaN(productId)) {
-      sendResponse(res, {
+      return sendResponse(res, {
         statusCode: httpStatus.BAD_REQUEST,
         message: "Invalid product ID",
         data: "",

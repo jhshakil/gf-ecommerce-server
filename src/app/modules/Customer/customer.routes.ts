@@ -8,13 +8,13 @@ import { CustomerControllers } from "./customer.controller";
 const router = Router();
 
 router.patch(
-  "/:id",
+  "/",
   auth(Role.CUSTOMER),
   validateRequest(CustomerValidations.customer),
   CustomerControllers.updateCustomer
 );
 router.get(
-  "/:id",
+  "/",
   auth(Role.CUSTOMER, Role.ADMIN),
   CustomerControllers.getCustomer
 );
