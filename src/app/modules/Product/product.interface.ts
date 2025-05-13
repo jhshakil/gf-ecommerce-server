@@ -13,4 +13,6 @@ export type ProductFilter = {
   maxPrice?: number;
   minRating?: number;
   search?: string;
+  page?: number;
+  limit?: number;
 };

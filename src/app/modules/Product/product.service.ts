@@ -9,20 +9,58 @@ const createProduct = async (payload: ProductInput) => {
 };
 
 const getProducts = async (filter: ProductFilter) => {
+  const {
+    category,
+    minPrice,
+    maxPrice,
+    minRating,
+    search,
+    page = 1,
+    limit = 12,
+  } = filter;
+
   const where: any = {};
 
-  if (filter.category) where.categoryId = filter.category;
-  if (filter.minPrice !== undefined) where.price = { gte: filter.minPrice };
-  if (filter.maxPrice !== undefined)
-    where.price = { ...where.price, lte: filter.maxPrice };
-  if (filter.minRating !== undefined) where.rating = { gte: filter.minRating };
-  if (filter.search)
-    where.name = { contains: filter.search, mode: "insensitive" };
+  if (category) {
+    where.categoryId = category;
+  }
 
-  return await prisma.product.findMany({
-    where,
-    include: { category: true },
-  });
+  if (minPrice !== undefined) {
+    where.price = { gte: minPrice };
+  }
+
+  if (maxPrice !== undefined) {
+    where.price = { ...where.price, lte: maxPrice };
+  }
+
+  if (minRating !== undefined) {
+    where.rating = { gte: minRating };
+  }
+
+  if (search) {
+    where.name = { contains: search, mode: "insensitive" };
+  }
+
+  const skip = (page - 1) * limit;
+  const take = limit;
+
+  const [products, total] = await prisma.$transaction([
+    prisma.product.findMany({
+      where,
+      skip,
+      take,
+      include: { category: true },
+    }),
+    prisma.product.count({ where }),
+  ]);
+
+  return {
+    products,
+    total,
+    page,
+    limit,
+    totalPages: Math.ceil(total / limit),
+  };
 };
 
 const getProductById = async (id: number) => {

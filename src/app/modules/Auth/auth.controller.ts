@@ -6,7 +6,7 @@ import sendResponse from "../../../utils/sendResponse";
 import { AuthUser } from "./auth.interface";
 
 const register = catchAsync(async (req: Request, res: Response) => {
-  const { user, customer } = await AuthServices.register(req.body);
+  const { user, customer, token } = await AuthServices.register(req.body);
 
   sendResponse(res, {
     message: "Register successfully!",
@@ -18,6 +18,7 @@ const register = catchAsync(async (req: Request, res: Response) => {
         role: user.role,
       },
       customer,
+      token,
     },
   });
 });

@@ -32,7 +32,13 @@ const register = async (payload: RegisterInput) => {
       },
     });
 
-    return { user, customer };
+    const token = generateToken(
+      { id: user.id, email: user.email, role: user.role },
+      config.jwt_secret as Secret,
+      config.expires_in as string
+    );
+
+    return { user, customer, token };
   });
 };
 

@@ -20,6 +20,8 @@ const getProducts = catchAsync(async (req: Request, res: Response) => {
     maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
     minRating: req.query.minRating ? Number(req.query.minRating) : undefined,
     search: req.query.search ? String(req.query.search) : undefined,
+    page: req.query.page ? Number(req.query.page) : 1,
+    limit: req.query.limit ? Number(req.query.limit) : 12,
   };
 
   const product = await ProductServices.getProducts(filter);
